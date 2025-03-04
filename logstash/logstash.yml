@@ -1,0 +1,7 @@
+http.host: "0.0.0.0"
+
+pipeline.ordered: false
+queue.type: persisted
+queue.max_bytes: 200mb
+dead_letter_queue.enable: true
+dead_letter_queue.max_bytes: 50mb
