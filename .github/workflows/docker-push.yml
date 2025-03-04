@@ -37,7 +37,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       ########################################
-      # Docker login to Docker Hub
+      # Docker login to Docker Hub 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
