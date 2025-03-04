@@ -1,9 +1,11 @@
+# Before this is run, make sure that docker hub has logstash-8.17.2 and AWS ECR has logstash-8.17.2 repo 
+# already created.
 name: Build and Push Logstash Docker Image
 
 on:
   push:
     branches:
-      - github_actions
+      - main
     paths:
       - 'logstash/docker/Dockerfile'
       - 'logstash/docker/http_to_s3.conf'
