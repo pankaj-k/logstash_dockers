@@ -1,0 +1,90 @@
+name: Build and Push Logstash Docker Image
+
+on:
+  push:
+    branches:
+      - github_actions
+    paths:
+      - 'logstash/docker/Dockerfile'
+      - 'logstash/docker/http_to_s3.conf'
+      - 'logstash/docker/logstash.yml'
+      - 'logstash/docker/pipelines.yml'
+      - '.github/workflows/docker-push.yml'  # Runs if the workflow itself changes
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      #######################################
+      # AWS ECR Login
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      ########################################
+      # Docker login to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }} # This is your Docker Hub Access Token. Not your password.
+
+      ########################################
+      # Create image
+      - name: Build and Tag Docker Image
+        run: |
+          AWS_REPO_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/logstash-8.17.2"
+          DOCKERHUB_REPO="seagulls6/logstash-8.17.2"
+
+          docker build -t logstash-8.17.2:latest logstash/docker
+          
+          # Tag for AWS ECR
+          docker tag logstash-8.17.2:latest $AWS_REPO_URI:latest
+          docker tag logstash-8.17.2:latest $AWS_REPO_URI:0.1
+          
+          # Tag for Docker Hub
+          docker tag logstash-8.17.2:latest $DOCKERHUB_REPO:latest
+          docker tag logstash-8.17.2:latest $DOCKERHUB_REPO:0.1
+      ########################################
+      # Push Docker Image to AWS ECR 
+      - name: Push Docker Image to Amazon ECR
+        run: |
+          AWS_REPO_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/logstash-8.17.2"
+          docker push $AWS_REPO_URI:latest
+          docker push $AWS_REPO_URI:0.1
+
+      # Step 5: Push Docker Image to Docker Hub
+      - name: Push Docker Image to Docker Hub
+        run: |
+          DOCKERHUB_REPO="seagulls6/logstash-8.17.2"
+          docker push $DOCKERHUB_REPO:latest
+          docker push $DOCKERHUB_REPO:0.1
+
+
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: logstash_simple/docker  # Path to your Dockerfile 
+      #     file: logstash_simple/docker/Dockerfile # Path to your Dockerfile
+      #     push: true
+      #     tags: seagulls6/logstash-8.17.2:0.1 # You have to create a repository first in https://hub.docker.com 
+      #     # Your username is the first part of the repository name. In this case, seagulls6 is the username. 
+      #     # The second part is the name of the image. In this case, logstash-8.17.2 is the image name.
+      #     # When you create the repository in hub.docker.com just name the repository the image name. 
+      #     # It will automatically prefix your username to the repository name.
+      # - name: Verify Image on Docker Hub
+      #   run: docker pull seagulls6/logstash-8.17.2:0.1
