@@ -51,7 +51,7 @@ jobs:
           AWS_REPO_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/logstash-8.17.2"
           DOCKERHUB_REPO="seagulls6/logstash-8.17.2"
 
-          docker build -t logstash-8.17.2:latest logstash/docker
+          docker build -t logstash-8.17.2:latest logstash
           
           # Tag for AWS ECR
           docker tag logstash-8.17.2:latest $AWS_REPO_URI:latest
