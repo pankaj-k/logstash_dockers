@@ -53,7 +53,7 @@ jobs:
 
           docker build -t logstash-8.17.2:latest logstash
           
-          # Tag for AWS ECR
+          # Tag for AWS ECR 
           docker tag logstash-8.17.2:latest $AWS_REPO_URI:latest
           docker tag logstash-8.17.2:latest $AWS_REPO_URI:0.1
           
