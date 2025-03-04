@@ -91,4 +91,4 @@ jobs:
       #     # When you create the repository in hub.docker.com just name the repository the image name. 
       #     # It will automatically prefix your username to the repository name.
       # - name: Verify Image on Docker Hub
-      #   run: docker pull seagulls6/logstash-8.17.2:0.1
+      #   run: docker pull seagulls6/logstash-8.17.2:0.1 
