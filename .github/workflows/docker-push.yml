@@ -1,11 +1,11 @@
 # Before this is run, make sure that docker hub has logstash-8.17.2 and AWS ECR has logstash-8.17.2 repo 
-# already created.
+# already created. branches should be "- main" when the code is checked into main branch. 
 name: Build and Push Logstash Docker Image
 
 on:
   push:
     branches:
-      - main
+      - ecs_fargate
     paths:
       - 'logstash/docker/Dockerfile'
       - 'logstash/docker/http_to_s3.conf'
