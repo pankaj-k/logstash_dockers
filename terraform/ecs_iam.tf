@@ -41,8 +41,35 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 #   policy_arn = aws_iam_policy.s3_aws_iam_policy.arn
 # }
 
+data "aws_iam_policy_document" "ecs_execution_role_policy_document" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:BatchGetImage",
+      "kms:Decrypt"
+    ]
+    resources = ["*"]
+  }
+}
+
+# Create an IAM Policy using the policy document
+resource "aws_iam_policy" "ecs_execution_role_policy" {
+  name        = "ecs_execution_role_policy"
+  description = "Allow ECS operations"
+  policy      = data.aws_iam_policy_document.ecs_execution_role_policy_document.json
+}
 
 
+# Attach ecs execution role policy to the role.
+resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy_attachment" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.ecs_execution_role_policy.arn
+}
 
 # Write to cloudwatch logs policy document.
 data "aws_iam_policy_document" "cloudwatch_logs_policy_document" {
