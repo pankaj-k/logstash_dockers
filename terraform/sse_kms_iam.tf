@@ -19,6 +19,15 @@ resource "aws_kms_key_policy" "logstash_docker_kms_key_policy" {
     Id = "example"
     Statement = [
       {
+        Sid    = "AllowRootUserFullControl"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+        Action   = "kms:*"
+        Resource = "*"
+      },
+      {
         Action = [
           "kms:Create*",
           "kms:Describe*",
@@ -41,16 +50,45 @@ resource "aws_kms_key_policy" "logstash_docker_kms_key_policy" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "${data.aws_caller_identity.current.arn}",
             "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.ecs_task_execution_role.name}",
             # "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.firehose_access_role.name}",
             # "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.session_mgr_access_role.name}",
           ]
         }
         Resource = "*"
-        Sid      = "iamadmin administration of the key"
+        Condition = {
+          StringEquals = {
+            "aws:SourceAccount" = "${data.aws_caller_identity.current.account_id}"
+          }
+        }
+        Sid = "iamadmin administration of the key"
       },
+      {
+        # New statement for ALB logging service
+        Effect = "Allow"
+        Principal = {
+          Service = "delivery.logs.amazonaws.com"
+        }
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*"
+        ]
+        Resource = "*"
+        Condition = {
+          ArnLike = {
+            "aws:SourceArn" = "arn:aws:elasticloadbalancing:${var.region}:127311923021:loadbalancer/*"
+          }
+        }
+        Sid = "Allow ALB Logging Service to Encrypt Logs"
+      }
     ]
     Version = "2012-10-17"
   })
 }
+
+# LEARNING: you cannot assign aws_iam_role.ecs_task_execution_role to the load balancer because AWS Application Load Balancer (ALB) does not support IAM roles.
+# IAM roles can be assigned to AWS services like ECS tasks, EC2 instances, or Lambda functions—but not to an ALB.
+# ALBs use service principals (delivery.logs.amazonaws.com) to write logs to S3. These logs need to be encrypted using your KMS key.
+# Since ALBs do not assume IAM roles, they must be granted access via a KMS key policy.

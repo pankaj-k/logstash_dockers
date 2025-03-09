@@ -63,6 +63,12 @@
 #     assign_public_ip = true
 #   }
 
+#   load_balancer {
+#     target_group_arn = aws_lb_target_group.aws_load_balancer_target_group.arn
+#     container_name   = "logstash"
+#     container_port   = 5044
+#   }
+
 #   tags = {
 #     Name = "logstash-service"
 #   }

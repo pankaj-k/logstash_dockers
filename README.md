@@ -10,10 +10,15 @@ Before Github action is run, make sure that docker hub has logstash-8.17.2 and A
 
 Docker Hub repo creation is manual.
 
-For AWS repo creation, go to logstash_dockers/terraform and run:
+For AWS repo creation, go to logstash_dockers/terraform, comment out contents of ecs.tf and run:
 terraform init
 terraform apply -auto-approve=true
 terraform destroy -auto-approve=true
+
+Then make changes to docker-push.yml , like an extra space and then push the code to github so that github actions send image to both docker hub and the aws ecr repo just created above step.
+
+Then uncomment the ecs.tf and run terraform again. That then creates a ecs fargate service using the image 
+sent to the ecr.
 
 The repo in github will need secrets to be added to it so that it is able to connect to docker hub and AWS. 
 Repo-> Settings-> Security-> Secrets and variables-> Actions

@@ -34,12 +34,12 @@ resource "aws_iam_role" "ecs_task_execution_role" {
   assume_role_policy = data.aws_iam_policy_document.allow_aws_services_to_assume_this_role.json
 }
 
-# # Add S3 access role to it.
-# # The policy is defined in s3_iam.tf
-# resource "aws_iam_role_policy_attachment" "attach_s3_access_policy" {
-#   role       = aws_iam_role.logstash_docker_role.name
-#   policy_arn = aws_iam_policy.s3_aws_iam_policy.arn
-# }
+# Add S3 access role to it.
+# The policy is defined in s3_iam.tf
+resource "aws_iam_role_policy_attachment" "attach_s3_access_policy" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.s3_aws_iam_policy.arn
+}
 
 data "aws_iam_policy_document" "ecs_execution_role_policy_document" {
   statement {

@@ -19,9 +19,11 @@ resource "aws_lb" "aws_load_balancer" {
   #subnets = [aws_subnet.public_web_subnets.*.id]
   subnets = [aws_subnet.publicA.id, aws_subnet.publicB.id, aws_subnet.publicC.id]
 
-#   # Enable access logs for debugging. Strange that cloudwatch logs not there for ALBs
-#   access_logs {
-#     bucket  = aws_s3_bucket.lb_logs.id
-#     enabled = true
-#   }
+  # Enable access logs for debugging. Strange that cloudwatch logs not there for ALBs
+  access_logs {
+    bucket  = aws_s3_bucket.logstash_ecs_lb_access_logs.id
+    enabled = true
+  }
+
+  depends_on = [aws_s3_bucket_policy.alb_access_logs_policy]
 }
