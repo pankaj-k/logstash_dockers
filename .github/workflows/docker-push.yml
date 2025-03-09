@@ -7,7 +7,7 @@ on:
     branches:
       - ecs_fargate
     paths:
-      - 'logstash/docker/Dockerfile'
+      - 'logstash/docker/Dockerfile' 
       - 'logstash/docker/http_to_s3.conf' 
       - 'logstash/docker/logstash.yml' 
       - 'logstash/docker/pipelines.yml'
