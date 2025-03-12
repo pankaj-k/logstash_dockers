@@ -1,7 +1,11 @@
 # logstash-docker-v0.1
-Docker based Logstash
+The ECS Fargate is configured to increase the number of tasks when the CPU is above 50% in this example.
+To generate such load you can use Apache Benchmark which strangely comes preinstalled on Fedora.  
 
-Version of logstash pulled is fixed so that there is uniformity.
-http input is used so that it is easy to test out the image created.
+Use Apache Benchmark (ab)
 
-We use github as code repo. AWS codebuild for compiling the code in AWS and pushing it to AWS ECR private repository.
+If Logstash is set up to accept HTTP logs:
+
+ab -n 100000 -c 100 http://logstash-server:5044/
+
+    Sends 100,000 requests with 100 concurrent connections.

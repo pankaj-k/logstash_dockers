@@ -7,8 +7,8 @@ resource "aws_kms_key" "logstash_docker_kms_key" {
   }
 }
 
-# resource "aws_kms_alias" "alias" {
-#   name          = "alias/logstash_docker_kms_key" # Mandatory to have alias/ in the name.
-#   target_key_id = aws_kms_key.logstash_docker_kms_key.id
-# }
+resource "aws_kms_alias" "alias" {
+  name          = "alias/logstash_docker_kms_key" # Mandatory to have alias/ in the name.
+  target_key_id = aws_kms_key.logstash_docker_kms_key.id
+}
 
