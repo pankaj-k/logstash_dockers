@@ -1,6 +1,6 @@
 # Before this is run, make sure that docker hub has logstash-8.17.2 and AWS ECR has logstash-8.17.2 repo 
 # already created. branches should be "- main" when the code is checked into main branch. 
-name: Build and Push Logstash Docker Image
+name: Build and Push Logstash Docker Image 
 
 on:
   push:
