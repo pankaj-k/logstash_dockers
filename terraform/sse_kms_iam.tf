@@ -50,7 +50,7 @@ resource "aws_kms_key_policy" "logstash_docker_kms_key_policy" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.ecs_task_execution_role.name}",
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.logstash_role.name}",
             # "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.firehose_access_role.name}",
             # "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.session_mgr_access_role.name}",
           ]

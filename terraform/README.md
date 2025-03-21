@@ -8,4 +8,4 @@ If Logstash is set up to accept HTTP logs:
 
 ab -n 100000 -c 100 http://logstash-server:5044/
 
-    Sends 100,000 requests with 100 concurrent connections.
+Sends 100,000 requests with 100 concurrent connections.
