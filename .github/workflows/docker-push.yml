@@ -5,7 +5,8 @@ name: Build and Push Logstash Docker Image
 on:
   push:
     branches:
-      - main
+      #- main
+      - terraform_modules_introduced
     paths:
       - 'logstash/docker/Dockerfile'
       - 'logstash/docker/http_to_s3.conf'
