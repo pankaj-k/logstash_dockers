@@ -68,7 +68,7 @@ jobs:
       
       - name: Terraform Apply
         # Create all infra except ECS
-        run: terraform apply -input=false -auto-approve tfplan -target=module.ecr -target=module.alb
+        run: terraform apply -input=false -auto-approve -target=module.ecr -target=module.alb
         working-directory: terraform
       ################## STEP 2 ######################
       # Docker login to Docker Hub 
@@ -112,9 +112,8 @@ jobs:
           docker push $DOCKERHUB_REPO:0.1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'   # only auto-apply on main
         # Create all infra except ECS
-        run: terraform apply -input=false -auto-approve tfplan -target=module.ecs_service
+        run: terraform apply -input=false -auto-approve -target=module.ecs_service
         working-directory: terraform
 
       #   uses: docker/build-push-action@v5
