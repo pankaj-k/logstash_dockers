@@ -68,7 +68,7 @@ jobs:
       
       - name: Terraform Apply
         # Create all infra except ECS
-        run: terraform apply -input=false -auto-approve -target=module.ecr -target=module.alb
+        run: terraform apply -input=false -auto-approve -target=module.ecr -target=module.alb -target=module.vpc -target=module.logstash_kms -target=module.s3_bucket_for_logs -target=module.s3_bucket_for_logstash
         working-directory: terraform
       ################## STEP 2 ######################
       # Docker login to Docker Hub 
