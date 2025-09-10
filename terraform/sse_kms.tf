@@ -15,7 +15,7 @@
 # KMS module to create key + alias
 module "logstash_kms" {
   source  = "terraform-aws-modules/kms/aws"
-  version = "~> 1.1" # lock to latest minor release
+  #version = "~> 1.1" # lock to latest minor release
 
   aliases                 = ["alias/logstash_docker_kms_key"]
   enable_key_rotation     = true

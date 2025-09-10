@@ -5,3 +5,17 @@ queue.type: persisted
 queue.max_bytes: 200mb
 dead_letter_queue.enable: true
 dead_letter_queue.max_bytes: 50mb
+
+# Container-optimized paths
+path.data: "/usr/share/logstash/data"
+path.logs: "/usr/share/logstash/logs"
+path.settings: "/usr/share/logstash/config"
+
+# Performance tuning for containers
+pipeline.workers: 2  # Adjust based on your CPU allocation
+pipeline.batch.size: 125
+pipeline.batch.delay: 50
+
+# Monitoring endpoint (for health checks)
+api.http.port: 9600
+api.http.host: "0.0.0.0"
