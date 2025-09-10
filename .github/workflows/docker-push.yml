@@ -96,7 +96,7 @@ jobs:
           # Tag for Docker Hub
           docker tag logstash-8.17.2:latest $DOCKERHUB_REPO:latest
           docker tag logstash-8.17.2:latest $DOCKERHUB_REPO:0.1
-      ########################################
+      #########################################
       # Push Docker Image to AWS ECR 
       - name: Push Docker Image to Amazon ECR
         run: |
