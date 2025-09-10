@@ -12,7 +12,7 @@ module "vpc" {
   # If the ec2 instances in private subnet need internet access. Like OS updates.
   # Outside world cannot initiate connection to instances in private subnet.
   enable_nat_gateway = true
-  #   enable_vpn_gateway = true
+  create_igw         = true
 
   tags = {
     Terraform   = "true"
