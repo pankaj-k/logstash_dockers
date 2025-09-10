@@ -6,7 +6,7 @@ module "ecr" {
   repository_image_tag_mutability = "MUTABLE" # You can push a new image with the same tag name, and it will replace the previous image
   repository_force_delete         = true      # Force delete the repository even if it contains images
 
-  # Image scanning
+  # Image scanning configuration
   repository_image_scan_on_push = false
 
   # Encryption configuration
