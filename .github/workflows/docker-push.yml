@@ -67,7 +67,6 @@ jobs:
         working-directory: terraform
       
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'   # only auto-apply on main
         # Create all infra except ECS
         run: terraform apply -input=false -auto-approve tfplan -target=module.ecr -target=module.alb
         working-directory: terraform
