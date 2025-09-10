@@ -51,11 +51,12 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       
       # Create all infra in AWS except ECS
-      - name: Navigate to Terraform Directory 
-        run: cd terraform
+      # - name: Navigate to Terraform Directory 
+      #   run: cd terraform
 
       - name: Terraform Init
         run: terraform init -input=false
+        working-directory: terraform
 
       - name: Terraform Validate
         run: terraform validate
