@@ -22,31 +22,26 @@ module "vpc_endpoints" {
       service_name       = "com.amazonaws.${var.region}.ecr.api"
       service_type       = "Interface"
       subnet_ids         = module.vpc.private_subnets
-      security_group_ids = [aws_security_group.sg.id]
     }
     ecr_dkr = {
       service_name       = "com.amazonaws.${var.region}.ecr.dkr"
       service_type       = "Interface"
       subnet_ids         = module.vpc.private_subnets
-      security_group_ids = [aws_security_group.sg.id]
     }
     ecs = {
       service_name       = "com.amazonaws.${var.region}.ecs"
       service_type       = "Interface"
       subnet_ids         = module.vpc.private_subnets
-      security_group_ids = [aws_security_group.sg.id]
     }
     ecs_agent = {
       service_name       = "com.amazonaws.${var.region}.ecs.agent"
       service_type       = "Interface"
       subnet_ids         = module.vpc.private_subnets
-      security_group_ids = [aws_security_group.sg.id]
     }
     ecs_telemetry = {
       service_name       = "com.amazonaws.${var.region}.ecs.telemetry"
       service_type       = "Interface"
       subnet_ids         = module.vpc.private_subnets
-      security_group_ids = [aws_security_group.sg.id]
     }
   }
 }
