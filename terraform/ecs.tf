@@ -40,7 +40,8 @@ module "ecs_service" {
 
   name        = "logstash-service"
   cluster_arn = module.ecs_cluster.arn
-
+  
+  # ECS requires the TG to be attached to an ALB listener before it can create the service.
   depends_on = [
     aws_lb_listener.demo_lb_listener
   ]
