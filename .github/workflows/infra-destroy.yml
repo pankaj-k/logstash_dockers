@@ -5,6 +5,10 @@ permissions:
 
 
 on:
+  push:
+    branches:
+      #- main
+      - terraform_modules_introduced
   workflow_dispatch:  # manual trigger only
 
 jobs:
