@@ -34,12 +34,12 @@ module "vpc_endpoints" {
       subnet_ids         = module.vpc.private_subnets
     }
     ecs_agent = {
-      service_name       = "com.amazonaws.${var.region}.ecs.agent"
+      service_name       = "com.amazonaws.${var.region}.ecs-agent"
       service_type       = "Interface"
       subnet_ids         = module.vpc.private_subnets
     }
     ecs_telemetry = {
-      service_name       = "com.amazonaws.${var.region}.ecs.telemetry"
+      service_name       = "com.amazonaws.${var.region}.ecs-telemetry"
       service_type       = "Interface"
       subnet_ids         = module.vpc.private_subnets
     }
