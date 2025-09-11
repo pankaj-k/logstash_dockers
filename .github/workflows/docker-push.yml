@@ -5,14 +5,14 @@ name: Build and Push Logstash Docker Image
 on:
   push:
     branches:
-      #- main
+      #- main 
       - terraform_modules_introduced
     paths:
       - 'logstash/docker/Dockerfile'
       - 'logstash/docker/http_to_s3.conf'
       - 'logstash/docker/logstash.yml'
       - 'logstash/docker/pipelines.yml'
-      - '.github/workflows/docker-push.yml'  # Runs if the workflow itself changes
+      - '.github/workflows/docker-push.yml'  # Runs if the workflow itself changes 
   workflow_dispatch:  # Allow manual triggers also
 
 jobs:

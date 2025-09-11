@@ -9,7 +9,9 @@ module "vpc" {
   database_subnets = ["10.0.20.0/24", "10.0.21.0/24", "10.0.22.0/24"]
   public_subnets   = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24"]
 
-  create_igw         = true
+  create_igw           = true
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 
   tags = {
     Terraform   = "true"
