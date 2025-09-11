@@ -1,13 +1,7 @@
 name: Destroy Logstash AWS Infrastructure
 
 on:
-  push:
-    branches:
-      #- main
-      - terraform_modules_introduced
-    # paths:
-    #   - '.github/workflows/infra-destroy.yml'  # Runs if the workflow itself changes.
-  workflow_dispatch:  # Allow manual triggers also
+  workflow_dispatch:  # manual trigger only
 
 jobs:
   destroy-infra:

@@ -41,6 +41,10 @@ module "ecs_service" {
   name        = "logstash-service"
   cluster_arn = module.ecs_cluster.arn
 
+  depends_on = [
+    aws_lb_listener.demo_lb_listener
+  ]
+
   cpu    = 512  # adjust as needed
   memory = 1024 # adjust as needed
 

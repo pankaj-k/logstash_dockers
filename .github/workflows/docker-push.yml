@@ -116,6 +116,11 @@ jobs:
         run: terraform apply -input=false -auto-approve -target=module.ecs_service
         working-directory: terraform
 
+      - name: Terraform Apply
+        # Create all infra except ECS
+        run: terraform apply -input=false -auto-approve # Create any remaining resources if needed
+        working-directory: terraform
+
       #   uses: docker/build-push-action@v5
       #   with:
       #     context: logstash_simple/docker  # Path to your Dockerfile 
