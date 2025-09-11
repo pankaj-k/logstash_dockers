@@ -33,6 +33,11 @@ module "vpc_endpoints" {
       service_type       = "Interface"
       subnet_ids         = module.vpc.private_subnets
     }
+    s3 = {
+      service_name = "com.amazonaws.${var.region}.s3"
+      service_type = "Gateway"
+      route_table_ids = module.vpc.private_route_table_ids
+    }
     ecs_agent = {
       service_name       = "com.amazonaws.${var.region}.ecs-agent"
       service_type       = "Interface"
