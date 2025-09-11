@@ -40,7 +40,7 @@ module "ecs_service" {
 
   name        = "logstash-service"
   cluster_arn = module.ecs_cluster.arn
-  
+
   # ECS requires the TG to be attached to an ALB listener before it can create the service.
   depends_on = [
     aws_lb_listener.demo_lb_listener
@@ -87,12 +87,14 @@ module "ecs_service" {
       } }
 
       security_group_egress_rules = {
-        description = "Allow all outbound"
-        ip_protocol = "-1"
-        cidr_ipv4   = ["0.0.0.0/0"]
+        description                  = "Allow ECS tasks to reach ECR via VPC endpoint"
+        from_port                    = 443
+        to_port                      = 443
+        ip_protocol                  = "tcp"
+        referenced_security_group_id = module.vpc_endpoints.security_group_id
       }
 
-      portMappings  = [
+      portMappings = [
         {
           containerPort = 8080
           hostPort      = 8080
@@ -131,8 +133,8 @@ module "ecs_service" {
 
   launch_type = "FARGATE"
 
-  
-  desired_count = 2 
+
+  desired_count = 2
   # At service level we ask for 2 tasks.
   # base = 20 means "place 20 tasks on FARGATE first"
   # We asked for 2 total tasks. So with base=20, both will go to FARGATE.
