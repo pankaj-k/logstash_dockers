@@ -15,6 +15,14 @@ module "vpc_endpoints" {
       description = "HTTPS from VPC"
       cidr_blocks = [module.vpc.vpc_cidr_block]
     }
+    # Allow all outbound traffic (for VPC endpoints to reach AWS services)
+    egress_all = {
+      description = "All outbound traffic"
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
   }
 
   endpoints = {
