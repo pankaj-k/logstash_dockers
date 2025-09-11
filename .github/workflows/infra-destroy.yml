@@ -9,7 +9,7 @@ on:
     branches:
       #- main
       - terraform_modules_introduced
-  workflow_dispatch:  # manual trigger only
+  workflow_dispatch:  # manual trigger only 
 
 jobs:
   destroy-infra:
