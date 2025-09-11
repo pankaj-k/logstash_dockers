@@ -49,6 +49,23 @@ module "ecs_service" {
   cpu    = 512  # adjust as needed
   memory = 1024 # adjust as needed
 
+  security_group_ingress_rules = {
+    alb_ingress = {
+      description                  = "Allow ALB to reach Logstash"
+      from_port                    = 8080
+      to_port                      = 8080
+      ip_protocol                  = "tcp"
+      referenced_security_group_id = module.alb.security_group_id
+  } }
+
+  security_group_egress_rules = {
+    description                  = "Allow ECS tasks to reach ECR via VPC endpoint"
+    from_port                    = 443
+    to_port                      = 443
+    ip_protocol                  = "tcp"
+    referenced_security_group_id = module.vpc_endpoints.security_group_id
+  }
+
 
   # Auto-create execution role
   create_task_exec_iam_role = true
@@ -77,22 +94,22 @@ module "ecs_service" {
       essential = true
       image     = "${module.ecr.repository_url}:latest"
 
-      security_group_ingress_rules = {
-        alb_ingress = {
-          description                  = "Allow ALB to reach Logstash"
-          from_port                    = 8080
-          to_port                      = 8080
-          ip_protocol                  = "tcp"
-          referenced_security_group_id = module.alb.security_group_id
-      } }
+      # security_group_ingress_rules = {
+      #   alb_ingress = {
+      #     description                  = "Allow ALB to reach Logstash"
+      #     from_port                    = 8080
+      #     to_port                      = 8080
+      #     ip_protocol                  = "tcp"
+      #     referenced_security_group_id = module.alb.security_group_id
+      # } }
 
-      security_group_egress_rules = {
-        description                  = "Allow ECS tasks to reach ECR via VPC endpoint"
-        from_port                    = 443
-        to_port                      = 443
-        ip_protocol                  = "tcp"
-        referenced_security_group_id = module.vpc_endpoints.security_group_id
-      }
+      # security_group_egress_rules = {
+      #   description                  = "Allow ECS tasks to reach ECR via VPC endpoint"
+      #   from_port                    = 443
+      #   to_port                      = 443
+      #   ip_protocol                  = "tcp"
+      #   referenced_security_group_id = module.vpc_endpoints.security_group_id
+      # }
 
       portMappings = [
         {
