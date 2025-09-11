@@ -50,5 +50,5 @@ module "ecr" {
     Name        = "logstash-ecr-repository"
     Environment = "dev" # Adjust as needed
   }
-
+ 
 }
