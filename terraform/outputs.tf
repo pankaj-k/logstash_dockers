@@ -4,7 +4,7 @@ output "logstash_ecr_repository_arn" {
   value       = module.ecr.repository_arn
 }
 
-output "logstash_ecr_repository_url" {
+output "logstash_ecr_repository_url" { 
   description = "URL of the ECR repository (for docker commands)"
   value       = module.ecr.repository_url
 }
