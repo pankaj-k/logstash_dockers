@@ -51,19 +51,21 @@ module "ecs_service" {
 
   security_group_ingress_rules = {
     alb_ingress = {
-      description                  = "Allow ALB to reach Logstash"
-      from_port                    = 8080
-      to_port                      = 8080
-      ip_protocol                  = "tcp"
-      referenced_security_group_id = module.alb.security_group_id
+      description              = "Allow ALB to reach Logstash"
+      type                     = "ingress"
+      protocol                 = "tcp"
+      from_port                = 8080
+      to_port                  = 8080
+      source_security_group_id = module.alb.security_group_id
   } }
 
   security_group_egress_rules = {
-    description                  = "Allow ECS tasks to reach ECR via VPC endpoint"
-    from_port                    = 443
-    to_port                      = 443
-    ip_protocol                  = "tcp"
-    referenced_security_group_id = module.vpc_endpoints.security_group_id
+    description              = "Allow ECS tasks to reach ECR via VPC endpoint"
+    type                     = "egress"
+    protocol                 = "tcp"
+    from_port                = 443
+    to_port                  = 443
+    source_security_group_id = module.vpc_endpoints.security_group_id
   }
 
 
