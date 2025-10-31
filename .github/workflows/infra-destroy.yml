@@ -1,14 +1,6 @@
 name: Destroy Logstash AWS Infrastructure
 
-permissions:
-  contents: read
-
-
 on:
-  #push:
-    #branches:
-      #- main
-      #- terraform_modules_introduced
   workflow_dispatch:  # manual trigger only 
 
 jobs:
